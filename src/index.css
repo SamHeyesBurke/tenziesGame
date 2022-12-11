@@ -1,4 +1,49 @@
-* {
-  background-color: black;
-  color: white;
+
+
+/* The colored blobs */
+.container{
+  background-repeat: no-repeat;
+  background-position: bottom left, top right;
+  background-size: 300px;
+  background-image: url(blob1.png), url(blob2.png);
+  background-color: #F5F7FB;
+  font-family: 'Karla', sans-serif;
+  height: 100vh;
+  display: flex;
 }
+
+
+
+
+
+/* ***************************
+styling for the opening page
+*************************** */
+
+.start {
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.startText {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  font-size: larger;
+  line-height: 5px;
+}
+
+.startButton {
+  background-color: #4D5B9E;
+  color: white;
+  border-radius: 15px;
+  width: 193px;
+  height: 52px;
+  font-size: larger;
+  margin-top: 35px;
+  cursor: pointer;
+}
+
