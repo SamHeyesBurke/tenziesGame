@@ -9,17 +9,22 @@ export default function App () {
 
     const [questions, setQuestions] = React.useState([])
 
+    const [newGame, setNewGame] = React.useState(false)
+
 
     function startQuiz() {
         setIsPlayed(true)
     }
 
+    function handleNewGame() {
+        setNewGame(oldGame => !oldGame)
+    }
 
     React.useEffect(() => {
         fetch("https://opentdb.com/api.php?amount=10")
         .then(res => res.json())
         .then(data => setQuestions(data.results))
-    }, [])
+    }, [newGame])
 
 
 
@@ -39,7 +44,10 @@ export default function App () {
 
 
                 <Questions 
-                questions={questions} />
+                questions={questions} 
+                newGame ={handleNewGame}
+                />
+                
        
                 <h1>The quiz</h1>
 

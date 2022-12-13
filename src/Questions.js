@@ -19,6 +19,7 @@ export default function Questions (props) {
 
 
 
+
     const questionElements = props.questions.map(question => {
 
         if(getRandom() === 1) {
@@ -89,6 +90,7 @@ export default function Questions (props) {
         <div>
             {questionElements}
             <button onClick={handleSubmit}>Submit</button>
+            <button onClick={(event) => props.newGame(event)}>New game</button>
         </div>
       )
 
