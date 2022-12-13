@@ -1,4 +1,5 @@
 import React from "react";
+import Questions from "./Questions.js"
 
 
 
@@ -20,20 +21,7 @@ export default function App () {
         .then(data => setQuestions(data.results))
     }, [])
 
-    const questionElements = questions.map(question => {
-       return (
-        <div>
-            <h3>{question.question}</h3>
 
-            <div>
-                 <button>{question.correct_answer}</button>
-                 <button>{question.incorrect_answers[0]}</button>
-                {question.incorrect_answers[1] && <button>{question.incorrect_answers[1]}</button>}
-                {question.incorrect_answers[2] && <button>{question.incorrect_answers[1]}</button>}
-            </div>
-        </div>
-        )
-    })
 
 
 
@@ -49,8 +37,10 @@ export default function App () {
             isPlayed ? 
             <div className="container quiz">
 
+
+                <Questions 
+                questions={questions} />
        
-                  <p>{questionElements}</p>
                 <h1>The quiz</h1>
 
                 
