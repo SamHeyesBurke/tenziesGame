@@ -2,7 +2,6 @@ import React from "react";
 
 
 
-
 export default function App () {
 
     const [isPlayed, setIsPlayed] = React.useState(true)
@@ -15,30 +14,33 @@ export default function App () {
     }
 
 
-    //fetched the questions API when the page is first loaded
     React.useEffect(() => {
         fetch("https://opentdb.com/api.php?amount=10")
         .then(res => res.json())
         .then(data => setQuestions(data.results))
     }, [])
 
-
-   
-
-
-    // gets an array of the answer and question elements
-    let correctAnswerElements = questions.map(question => question.correct_answer)
-    let incorrectAnswerElements = questions.map(question => question.incorrect_answers)
-    let questionElements = questions.map(question => question.question)
-    
-    const elements = questions.map((question) => (
+    const questionElements = questions.map(question => {
+       return (
         <div>
-            <h3>{questionElements[question]}</h3>
-            <button>{incorrectAnswerElements[question]}}</button>
-            <button>{correctAnswerElements[question]}</button>
+            <h3>{question.question}</h3>
+
+            <div>
+                 <button>{question.correct_answer}</button>
+                 <button>{question.incorrect_answers[0]}</button>
+                {question.incorrect_answers[1] && <button>{question.incorrect_answers[1]}</button>}
+                {question.incorrect_answers[2] && <button>{question.incorrect_answers[1]}</button>}
+            </div>
         </div>
-    ))
-  
+        )
+    })
+
+
+
+
+
+
+
 
 
     return(
@@ -47,7 +49,11 @@ export default function App () {
             isPlayed ? 
             <div className="container quiz">
 
-                {elements}
+       
+                  <p>{questionElements}</p>
+                <h1>The quiz</h1>
+
+                
 
             </div>
 
@@ -65,8 +71,7 @@ export default function App () {
 
             </div>
 
-            }
-         </main> 
+             }
+         </main>
     )
 }
-
