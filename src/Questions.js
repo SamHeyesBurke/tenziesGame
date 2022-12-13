@@ -17,6 +17,10 @@ export default function Questions (props) {
         setSubmitted(true)
     }
 
+    function newGame (event) {
+        setSubmitted(false)
+        props.newGame(event)
+    }
 
 
 
@@ -90,7 +94,7 @@ export default function Questions (props) {
         <div>
             {questionElements}
             <button onClick={handleSubmit}>Submit</button>
-            <button onClick={(event) => props.newGame(event)}>New game</button>
+            <button onClick={newGame}>New game</button>
         </div>
       )
 
