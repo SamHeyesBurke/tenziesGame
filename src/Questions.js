@@ -6,6 +6,19 @@ export default function Questions (props) {
         return Math.floor(Math.random() *4)
     }
 
+    const [submitted, setSubmitted] = React.useState(false)
+
+
+    const styles = {
+        backgroundColor: submitted ? 'pink' : 'white'
+    }
+
+    function handleSubmit() {
+        setSubmitted(true)
+    }
+
+
+
     const questionElements = props.questions.map(question => {
 
         if(getRandom() === 1) {
@@ -14,7 +27,7 @@ export default function Questions (props) {
              <h3>{question.question}</h3>
  
              <div>
-                  <button className="correct-answer">{question.correct_answer}</button>
+                  <button className="answer-correct" style={styles}>{question.correct_answer}</button>
                   <button>{question.incorrect_answers[0]}</button>
                  {question.incorrect_answers[1] && <button>{question.incorrect_answers[1]}</button>}
                  {question.incorrect_answers[2] && <button>{question.incorrect_answers[1]}</button>}
@@ -29,7 +42,7 @@ export default function Questions (props) {
         
                     <div>
                          <button>{question.incorrect_answers[0]}</button>
-                         <button className="correct-answer">{question.correct_answer}</button>
+                         <button className="correct-answer" style={styles}>{question.correct_answer}</button>
                         {question.incorrect_answers[1] && <button>{question.incorrect_answers[1]}</button>}
                         {question.incorrect_answers[2] && <button>{question.incorrect_answers[1]}</button>}
                     </div>
@@ -44,7 +57,7 @@ export default function Questions (props) {
                     <div>
                          <button>{question.incorrect_answers[0]}</button>
                         {question.incorrect_answers[1] && <button>{question.incorrect_answers[1]}</button>}
-                        <button className="correct-answer">{question.correct_answer}</button>
+                        <button className="correct-answer" style={styles}>{question.correct_answer}</button>
                         {question.incorrect_answers[2] && <button>{question.incorrect_answers[1]}</button>}
                     </div>
                 </div>
@@ -59,7 +72,7 @@ export default function Questions (props) {
                          <button>{question.incorrect_answers[0]}</button>
                         {question.incorrect_answers[1] && <button>{question.incorrect_answers[1]}</button>}
                         {question.incorrect_answers[2] && <button>{question.incorrect_answers[1]}</button>}
-                        <button className="correct-answer">{question.correct_answer}</button>
+                        <button className="correct-answer" style={styles}>{question.correct_answer}</button>
                     </div>
                 </div>
        
@@ -75,6 +88,7 @@ export default function Questions (props) {
       return(
         <div>
             {questionElements}
+            <button onClick={handleSubmit}>Submit</button>
         </div>
       )
 
