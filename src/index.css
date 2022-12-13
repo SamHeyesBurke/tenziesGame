@@ -47,3 +47,9 @@ styling for the opening page
   cursor: pointer;
 }
 
+
+
+.correct-answer {
+  background-color: pink;
+}
+
