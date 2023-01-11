@@ -1,103 +1,96 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+
 
 export default function Questions (props) {
 
-    function getRandom() {
-        return Math.floor(Math.random() *4)
+    //sets state for whether the user has submitted there answer
+    const [isSubmitted, setIsSubmitted] = useState(false)
+
+
+    //when the check answers button is pressed
+    function checkAnswers() {
+      setIsSubmitted(true)
     }
 
-    const [submitted, setSubmitted] = React.useState(false)
+    //when the play again button is pressed the new game function is ran in App;js
+    //and isSubmitted is set to false
+    function playAgain() {
+      props.newGame()
+      setIsSubmitted(false)
 
-
-    const styles = {
-        backgroundColor: submitted ? 'pink' : 'white'
-    }
-
-    function handleSubmit() {
-        setSubmitted(true)
-    }
-
-    function newGame (event) {
-        setSubmitted(false)
-        props.newGame(event)
     }
 
 
 
-    const questionElements = props.questions.map(question => {
+    //only reshuffles when there is a new game
+    function shuffleAnswers(question, isNewGame) {
+      //if it is not a new game return the same order
+      if (!isNewGame) return [...question.incorrect_answers, question.correct_answer];
+      //if it is a new game then sort the answers
+      let answers = [...question.incorrect_answers, question.correct_answer];
+      answers.sort(() => Math.random() - 0.5);
+      return answers;
+    }
 
-        if(getRandom() === 1) {
+      //gets the style for the answer
+        function getStyle(answer, correct) {
+          if(isSubmitted && answer !== correct) {
+            return {color: "red"}
+          } else if (isSubmitted && answer === correct) {
+            return {color: "green", fontSize: 20}
+          }
+          }
+
+
+        //maps over the props.qustions using the helper function "shuffleAnswers"
+      let answers = props.questions.map(question => {
+        let shuffledAnswers = shuffleAnswers(question, props.isNewGame);
+  
+        let answerElements = shuffledAnswers.map((answer, index) => (
+            <button 
+            key={index} 
+            style={getStyle(answer, question.correct_answer)}
+              >
+              {answer}
+            </button>
+        ));
+  
         return (
-         <div>
-             <h3>{question.question}</h3>
- 
-             <div>
-                  <button className="answer-correct" style={styles}>{question.correct_answer}</button>
-                  <button>{question.incorrect_answers[0]}</button>
-                 {question.incorrect_answers[1] && <button>{question.incorrect_answers[1]}</button>}
-                 {question.incorrect_answers[2] && <button>{question.incorrect_answers[1]}</button>}
-             </div>
-         </div>
+          <div>
+            {/* the question element */}
+            <h3>{question.question}</h3>
+            {answerElements}
+          </div>
+        );
+      });
 
-         )
-        } else if (getRandom() === 2) {
-            return (
-                <div>
-                    <h3>{question.question}</h3>
+
+
+
+
+    return(
+      <div>
+
+      {/* display the question elements */}
+     {answers}
+
+        {
+          isSubmitted ?
         
-                    <div>
-                         <button>{question.incorrect_answers[0]}</button>
-                         <button className="correct-answer" style={styles}>{question.correct_answer}</button>
-                        {question.incorrect_answers[1] && <button>{question.incorrect_answers[1]}</button>}
-                        {question.incorrect_answers[2] && <button>{question.incorrect_answers[1]}</button>}
-                    </div>
-                </div>
-       
-                )
-        } else if (getRandom() === 3) {
-            return (
-                <div>
-                    <h3>{question.question}</h3>
-        
-                    <div>
-                         <button>{question.incorrect_answers[0]}</button>
-                        {question.incorrect_answers[1] && <button>{question.incorrect_answers[1]}</button>}
-                        <button className="correct-answer" style={styles}>{question.correct_answer}</button>
-                        {question.incorrect_answers[2] && <button>{question.incorrect_answers[1]}</button>}
-                    </div>
-                </div>
-       
-                )
-        } else {
-            return (
-                <div>
-                    <h3>{question.question}</h3>
-        
-                    <div>
-                         <button>{question.incorrect_answers[0]}</button>
-                        {question.incorrect_answers[1] && <button>{question.incorrect_answers[1]}</button>}
-                        {question.incorrect_answers[2] && <button>{question.incorrect_answers[1]}</button>}
-                        <button className="correct-answer" style={styles}>{question.correct_answer}</button>
-                    </div>
-                </div>
-       
-                )
+           <div>
+           {/* set the new handleNewGame function in App.js
+           and also change the state of isSubmitted */}
+            <button onClick={playAgain}>Play again</button>
+          </div>
+
+           :
+
+           <div>
+          {/* change the state of isSubmitted  */}
+          <button onClick={checkAnswers}>Check answers</button>
+           </div>
+          
         }
-
-
-     })
-
-
-
-
-      return(
-        <div>
-            {questionElements}
-            <button onClick={handleSubmit}>Submit</button>
-            <button onClick={newGame}>New game</button>
-        </div>
-      )
-
-
-}
-
+     </div>
+    )
+      }
